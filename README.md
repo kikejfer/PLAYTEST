@@ -1,2 +1,2 @@
-# PLAYTEST
-Aplicación Playtest de juegos para tests
+# PlayTest
+Esta es la primera versión HTML de la app.
