@@ -508,6 +508,7 @@
                 players: [{ userId, nickname: userNickname, score: 0 }],
                 createdAt: new Date().toISOString()
             };
+            if (!db.globalGames) db.globalGames = [];
             db.globalGames.unshift(newGame);
             saveDatabase(db);
             return simulateDelay(newGame);
@@ -525,7 +526,8 @@
             createdAt: new Date().toISOString(),
             turn: 0
           };
-          (db.globalGames || []).unshift(newGame);
+          if (!db.globalGames) db.globalGames = [];
+          db.globalGames.unshift(newGame);
           const challengedProfile = db.userProfiles[challengedUser.id];
           if (challengedProfile) {
             if (!challengedProfile.challenges) challengedProfile.challenges = [];
@@ -1104,7 +1106,7 @@
                             <div className="flex items-center gap-3">
                               <SwordsIcon className="h-6 w-6 text-amber-400 flex-shrink-0" />
                               <div className="flex-grow overflow-hidden">
-                                <p className="font-semibold text-brand-light truncate">{t('challenge_from', { nickname: challenger.nickname, mode: challenge.mode })}</p>
+                                <p className="font-semibold text-brand-light truncate" dangerouslySetInnerHTML={{__html: t('challenge_from', { nickname: `<strong>${challenger.nickname}</strong>`, mode: `<strong>${challenge.mode}</strong>` })}}/>
                                 <p className="text-xs text-brand-accent truncate" title={getGameConfigDetails(challenge.config)}>
                                   {getGameConfigDetails(challenge.config)}
                                 </p>
@@ -1891,7 +1893,6 @@
         const [statModalBlock, setStatModalBlock] = useState(null);
         const [allGlobalBlocks, setAllGlobalBlocks] = useState([]);
         const [allUsers, setAllUsers] = useState([]);
-
 
         const loadData = useCallback(async () => {
           if (!currentUser) return;

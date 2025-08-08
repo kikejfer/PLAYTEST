@@ -1,5 +1,6 @@
 
 
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -358,7 +359,7 @@
           const [isConfirmingFinish, setIsConfirmingFinish] = useState(false);
           const [finishReason, setFinishReason] = useState('');
           const gameStartTime = useRef(Date.now());
-          const questionStartTime = useRef(Date.now());
+          const [questionStartTime, setQuestionStartTime] = useState(Date.now());
 
           const currentQuestion = questions[currentQuestionIndex];
           
@@ -409,7 +410,7 @@
 
           const handleAnswerSelect = (answerIndex) => {
               if (gameState !== 'playing') return;
-              const responseTime = (Date.now() - questionStartTime.current) / 1000;
+              const responseTime = (Date.now() - questionStartTime) / 1000;
               const isCorrect = currentQuestion.respuestas[answerIndex].esCorrecta;
               
               setUserAnswers(prev => [...prev, {
